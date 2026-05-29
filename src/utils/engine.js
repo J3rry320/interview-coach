@@ -1,6 +1,8 @@
-import ora from "ora";
-
 import { input } from "@inquirer/prompts";
+import boxen from "boxen";
+import chalk from "chalk";
+import figures from "figures";
+import ora from "ora";
 
 import { addQuestion, loadSession, saveEvaluation } from "../utils/session.js";
 
@@ -17,11 +19,29 @@ export async function runInterview(session) {
 
     questionSpinner.succeed();
     await addQuestion(question);
+    const topics = question.expectedTopics ?? [];
 
-    console.log("\n");
-    console.log(`Question ${i + 1}/${session.totalQuestions}`);
-    console.log(question.question);
-    console.log("");
+    console.log(
+      boxen(
+        [
+          `${figures.star} Question ${i + 1}/${session.totalQuestions}`,
+          "",
+          `${chalk.bold("Category:")} ${chalk.cyan(question.category ?? "General")}`,
+          `${chalk.bold("Difficulty:")} ${chalk.yellow(question.difficulty ?? "N/A")}`,
+          "",
+          chalk.whiteBright(question.question),
+          "",
+          chalk.gray("Expected Areas:"),
+          ...topics.map((topic) => `${chalk.gray(figures.bullet)} ${topic}`),
+        ].join("\n"),
+        {
+          padding: 1,
+          borderColor: "blue",
+          title: "Interview Question",
+          titleAlignment: "center",
+        },
+      ),
+    );
 
     const answer = await input({
       message: "Your Answer:",

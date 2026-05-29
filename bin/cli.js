@@ -3,9 +3,7 @@
 import chalk from "chalk";
 import { Command } from "commander";
 
-import { startCommand } from "../src/commands/start.js";
 import { hasActiveSession } from "../src/utils/session.js";
-import { showFinalReport } from "../src/utils/showReport.js";
 
 const program = new Command();
 
@@ -39,13 +37,20 @@ program
 program
   .command("start")
   .description("Start a new interview session")
-  .action(async () => {
+  .option("-k, --api-key <key>", "Groq API key")
+  .action(async (options) => {
     try {
-      if (!process.env.GROQ_API_KEY) {
+      const apiKey = options.apiKey || process.env.GROQ_API_KEY;
+
+      if (!apiKey) {
         console.error(chalk.red("Missing GROQ_API_KEY environment variable."));
 
         process.exit(1);
       }
+
+      process.env.GROQ_API_KEY = apiKey;
+      const { startCommand } = await import("../src/commands/start.js");
+
       await startCommand();
     } catch (error) {
       console.error(chalk.red("\nFailed to start interview:"));
@@ -68,6 +73,7 @@ program
 
         process.exit(1);
       }
+      const showReport = await import("../src/utils/showReport.js");
       await showFinalReport();
     } catch (error) {
       console.error(
@@ -87,6 +93,8 @@ program.addHelpText(
 Examples:
 
 $ interview-coach start
+$ interview-coach start --api-key "YOUR Key"
+$ interview-coach start -k "Your Key"
 $ interview-coach report
 
 Environment:

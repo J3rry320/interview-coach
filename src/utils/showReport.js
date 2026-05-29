@@ -31,8 +31,8 @@ export async function showFinalReport() {
 
   const average = Math.round(session.totalScore / session.questions.length);
 
-  console.clear();
-
+  //   console.clear();
+  console.log("\n");
   console.log(
     boxen(
       [

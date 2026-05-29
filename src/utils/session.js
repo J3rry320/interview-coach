@@ -5,12 +5,16 @@ import SessionSchema from "../schemas/sessionSchema.js";
 
 import { ensureStorage, fileExists, SESSION_FILE } from "./storage.js";
 
-export async function createSession({ role, level }) {
+export async function createSession({ role, level, totalQuestions }) {
   const session = {
     id: crypto.randomUUID(),
 
     role,
     level,
+
+    totalQuestions,
+
+    completedQuestions: 0,
 
     createdAt: new Date().toISOString(),
 
@@ -73,7 +77,7 @@ export async function hasActiveSession() {
 export async function saveEvaluation({ questionId, answer, evaluation }) {
   const session = await loadSession();
 
-  const question = session.questions.find((q) => q.id === questionId);
+  const question = session.questions[questionId];
 
   if (!question) {
     throw new Error("Question not found");

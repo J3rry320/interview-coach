@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const QuestionSchema = z.object({
-  id: z.string(),
+  //   id: z.string(),
   question: z.string(),
   category: z.string(),
   difficulty: z.enum(["easy", "medium", "hard"]),
@@ -17,7 +17,6 @@ export const QuestionSchema = z.object({
       strengths: z.array(z.string()),
       missingPoints: z.array(z.string()),
       idealAnswer: z.string(),
-      followUpQuestion: z.string().optional(),
     })
     .optional(),
 });
@@ -38,6 +37,9 @@ export const SessionSchema = z.object({
   totalScore: z.number(),
 
   questions: z.array(QuestionSchema),
+  totalQuestions: z.number(),
+
+  completedQuestions: z.number().default(0),
 });
 
 export default SessionSchema;

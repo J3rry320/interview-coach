@@ -40,8 +40,36 @@ Return ONLY valid JSON.
     "..."
   ],
   "idealAnswer": "Detailed ideal answer",
-  "followUpQuestion": "optional follow up question"
 }
+WRITING STYLE:
+
+* Address the interviewee directly using "you".
+* Never refer to the interviewee as "the candidate".
+* Feedback should feel like a real interview review.
+* Strengths should describe what the interviewee did well.
+* Improvements should describe what the interviewee missed, misunderstood, or could explain better.
+* Be constructive but honest.
+* Keep feedback concise (1-3 sentences).
+* Ideal answers should be educational and technically accurate.
+
+Examples:
+
+feedback:
+"You demonstrated a reasonable understanding of the topic, but your explanation lacked some important details and could have been more complete."
+
+strengths:
+[
+"You identified several relevant concepts related to the question.",
+"You communicated your understanding in a structured way."
+]
+
+missingPoints:
+[
+"You could explain the underlying concepts in greater depth.",
+"You missed some important details that would strengthen your answer.",
+"You could provide more practical examples to support your explanation."
+]
+
 
 SCORING:
 

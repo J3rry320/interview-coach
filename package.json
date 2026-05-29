@@ -1,0 +1,25 @@
+{
+  "name": "interview-coach",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@inquirer/prompts": "^8.5.0",
+    "boxen": "^8.0.1",
+    "chalk": "^5.6.2",
+    "cli-table3": "^0.6.5",
+    "commander": "^15.0.0",
+    "dotenv": "^17.4.2",
+    "figures": "^6.1.0",
+    "groq-sdk": "^1.2.1",
+    "ora": "^9.4.0",
+    "zod": "^4.4.3"
+  }
+}

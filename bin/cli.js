@@ -3,7 +3,9 @@
 import chalk from "chalk";
 import { Command } from "commander";
 
+import { startCommand } from "../src/commands/start.js";
 import { hasActiveSession } from "../src/utils/session.js";
+import { showFinalReport } from "../src/utils/showReport.js";
 
 const program = new Command();
 
@@ -49,7 +51,6 @@ program
       }
 
       process.env.GROQ_API_KEY = apiKey;
-      const { startCommand } = await import("../src/commands/start.js");
 
       await startCommand();
     } catch (error) {
@@ -73,7 +74,6 @@ program
 
         process.exit(1);
       }
-      const { showFinalReport } = await import("../src/utils/showReport.js");
       await showFinalReport();
     } catch (error) {
       console.error(

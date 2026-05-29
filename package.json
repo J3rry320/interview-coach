@@ -1,6 +1,6 @@
 {
   "name": "interview-coach",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "AI-powered interview simulator that conducts realistic interviews, evaluates responses, and generates detailed performance reports.",
   "type": "module",
   "bin": {

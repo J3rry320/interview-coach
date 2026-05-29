@@ -20,9 +20,10 @@ export default {
     outputModule: true,
   },
 
-  externalsPresets: {
-    node: true,
+  optimization: {
+    splitChunks: false,
   },
+
   plugins: [
     new webpack.BannerPlugin({
       banner: "#!/usr/bin/env node",

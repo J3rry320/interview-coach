@@ -73,7 +73,7 @@ program
 
         process.exit(1);
       }
-      const showReport = await import("../src/utils/showReport.js");
+      const { showFinalReport } = await import("../src/utils/showReport.js");
       await showFinalReport();
     } catch (error) {
       console.error(

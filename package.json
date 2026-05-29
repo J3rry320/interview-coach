@@ -39,13 +39,13 @@
     "email": "hello@codemedialabs.in",
     "url": "https://codemedialabs.in"
   },
-  "homepage": "https://codemedialabs.in",
+  "homepage": "https://codemedialabs.in/labs/interview-coach",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codemedialabs/interview-coach.git"
+    "url": "git+https://github.com/J3rry320/interview-coach.git"
   },
   "bugs": {
-    "url": "https://github.com/codemedialabs/interview-coach/issues"
+    "url": "https://github.com/J3rry320/interview-coach/issues"
   },
   "license": "MIT",
   "engines": {

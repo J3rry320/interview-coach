@@ -1,5 +1,19 @@
 # Interview Coach
 
+<p align="center">
+  <img src="https://i.ibb.co/DDLPynLM/Interview-Coach.png" alt="Logo Description" width="400">
+</p>
+
+![Node.js](https://img.shields.io/badge/node-%3E%3D20-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![CLI](https://img.shields.io/badge/CLI-Terminal_Tool-06b6d4?style=for-the-badge)
+![Open Source](https://img.shields.io/badge/Open_Source-MIT-success?style=for-the-badge)
+![Groq](https://img.shields.io/badge/GROQ-LLM-black?style=for-the-badge)
+![Webpack](https://img.shields.io/badge/Bundled-Webpack-8DD6F9?style=for-the-badge&logo=webpack)
+[![npm version](https://img.shields.io/npm/v/interview-coach?style=for-the-badge)](https://www.npmjs.com/package/interview-coach)
+[![npm downloads](https://img.shields.io/npm/dm/interview-coach?style=for-the-badge)](https://www.npmjs.com/package/interview-coach)
+[![GitHub stars](https://img.shields.io/github/stars/J3rry320/interview-coach?style=for-the-badge)](https://github.com/J3rry320/interview-coach)
+[![License](https://img.shields.io/github/license/J3rry320/interview-coach?style=for-the-badge)](https://github.com/J3rry320/interview-coach/blob/main/LICENSE)
+
 AI-powered terminal interview simulator that helps you practice interviews, receive structured feedback, and improve your performance through realistic AI-generated questions.
 
 Built as a Proof of Concept (POC) by Code Media Labs to demonstrate how modern AI can be combined with developer tooling to create practical career-focused applications.

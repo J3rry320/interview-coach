@@ -1,12 +1,101 @@
 #!/usr/bin/env node
 
+import chalk from "chalk";
 import { Command } from "commander";
+
 import { startCommand } from "../src/commands/start.js";
+import { hasActiveSession } from "../src/utils/session.js";
+import { showFinalReport } from "../src/utils/showReport.js";
 
 const program = new Command();
 
-program.name("interview-coach").description("AI Interview Coach");
+process.on("SIGINT", () => {
+  console.log(chalk.yellow("\n\nInterview interrupted."));
 
-program.command("start").description("Start interview").action(startCommand);
+  process.exit(0);
+});
+
+process.on("unhandledRejection", (error) => {
+  console.error(chalk.red("\nUnhandled Error:"));
+
+  console.error(error);
+
+  process.exit(1);
+});
+
+process.on("uncaughtException", (error) => {
+  console.error(chalk.red("\nUnexpected Crash:"));
+
+  console.error(error);
+
+  process.exit(1);
+});
+
+program
+  .name("interview-coach")
+  .description("Practice AI-powered interviews from your terminal.")
+  .version("1.0.0");
+
+program
+  .command("start")
+  .description("Start a new interview session")
+  .action(async () => {
+    try {
+      if (!process.env.GROQ_API_KEY) {
+        console.error(chalk.red("Missing GROQ_API_KEY environment variable."));
+
+        process.exit(1);
+      }
+      await startCommand();
+    } catch (error) {
+      console.error(chalk.red("\nFailed to start interview:"));
+
+      console.error(error);
+      process.exit(1);
+    }
+  });
+
+program
+  .command("report")
+  .description("View the latest interview report")
+  .action(async () => {
+    try {
+      const session = await hasActiveSession();
+      if (!session) {
+        console.error(
+          chalk.red("Missing Session Data. Make sure to give an interview"),
+        );
+
+        process.exit(1);
+      }
+      await showFinalReport();
+    } catch (error) {
+      console.error(
+        chalk.red(
+          "\nFailed to show last report. Make sure to give a complete interview",
+        ),
+      );
+
+      console.error(error);
+      process.exit(1);
+    }
+  });
+
+program.addHelpText(
+  "after",
+  `
+Examples:
+
+$ interview-coach start
+$ interview-coach report
+
+Environment:
+
+GROQ_API_KEY=your_api_key
+
+Website:
+https://codemedialabs.in
+`,
+);
 
 program.parse();

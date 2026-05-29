@@ -17,7 +17,9 @@
     "cli-table3": "^0.6.5",
     "commander": "^15.0.0",
     "dotenv": "^17.4.2",
+    "figlet": "^1.11.0",
     "figures": "^6.1.0",
+    "gradient-string": "^3.0.0",
     "groq-sdk": "^1.2.1",
     "ora": "^9.4.0",
     "zod": "^4.4.3"

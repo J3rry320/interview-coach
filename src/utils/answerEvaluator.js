@@ -1,5 +1,6 @@
-import { generateStructuredOutput } from "../providers/groq.js";
+import { generateStructuredOutput } from "../providers/llm.js";
 import { evaluateAnswerPrompt } from "./evaluateAnswerPrompt.js";
+import { normalizeEvaluation } from "./normalize.js";
 
 const SYSTEM_PROMPT = `
 You are a senior interviewer and evaluator.
@@ -12,7 +13,7 @@ export async function evaluateAnswer({
   expectedTopics,
   answer,
 }) {
-  return generateStructuredOutput({
+  const raw = await generateStructuredOutput({
     system: SYSTEM_PROMPT,
     user: evaluateAnswerPrompt({
       role,
@@ -22,4 +23,6 @@ export async function evaluateAnswer({
     }),
     temperature: 0.2,
   });
+
+  return normalizeEvaluation(raw);
 }

@@ -8,6 +8,8 @@ export const QuestionSchema = z.object({
   expectedTopics: z.array(z.string()),
 
   answer: z.string().optional(),
+  startTime: z.string().optional(),
+  durationSeconds: z.number().optional(),
 
   evaluation: z
     .object({
@@ -27,10 +29,11 @@ export const SessionSchema = z.object({
   role: z.string(),
 
   level: z.enum(["junior", "mid", "senior"]),
+  focusAreas: z.string().optional(),
 
   createdAt: z.string(),
 
-  status: z.enum(["active", "completed"]),
+  status: z.enum(["active", "completed", "interrupted"]),
 
   currentQuestion: z.number(),
 

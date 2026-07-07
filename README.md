@@ -20,285 +20,214 @@ Built as a Proof of Concept (POC) by Code Media Labs to demonstrate how modern A
 
 Whether you're preparing for a technical role, content writing position, marketing interview, sales role, design job, or any other profession, Interview Coach adapts to the role you provide and conducts a realistic interview experience directly from your terminal.
 
-## Features
-
-- Interactive CLI interview experience
-
-- Support for any role or profession
-
-- AI-generated interview questions using Groq
-
-- AI-powered answer evaluation
-
-- Structured scoring and verdicts
-
-- Detailed feedback and improvement suggestions
-
-- Final performance report
-
-- Beautiful terminal UI with progress indicators and formatted reports
-
-- Lightweight bundled CLI distribution
-
 ## Why We Built This
 
 Interview Coach started as an internal experiment at Code Media Labs to explore:
 
 - AI-powered assessments
-
 - Terminal-first developer experiences
-
 - Structured LLM outputs
-
 - Practical career preparation tools
 
 The project evolved into an open-source Proof of Concept showcasing how AI can be used to create interactive interview and evaluation systems.
 
+## Features
+
+- **Multi-Provider & Offline Support**: Seamlessly integrate with **Groq**, **OpenAI**, **Anthropic Claude**, **Ollama (Offline/Local)**, or any Custom OpenAI-Compatible endpoint. Run completely offline using local LLMs.
+- **Interactive Resumption**: Interrupt your interview at any point and resume exactly where you left off.
+- **Session History & History Table**: Store and track multiple past interviews. View performance chronologically with `interview-coach history`.
+- **Targeted Focus Areas**: Personalize your interview by specifying libraries, tools, or topics (e.g. `React, Docker, system design`).
+- **Interactive Report Browser**: View reports for any session by running `interview-coach report` and selecting from an interactive CLI menu of past sessions.
+- **Educational Ideal Answer Guides**: Review AI-suggested ideal answers side-by-side with your own for detailed study.
+- **Pacing & Duration Tracking**: Displays time taken per answer and average pacing metrics.
+- **Skills Analysis**: Groups questions by category and shows visual score progress bars (`[████████░░] 80%`) in the terminal.
+- **Cross-LLM Data Normalization**: Model-agnostic JSON cleaners extract, map, and cast outputs to prevent schema parsing crashes, even on smaller local models.
+
+---
+
 ## Requirements
 
 - Node.js >= 20
+- A valid API key for cloud providers (optional if using local Ollama or Custom offline configurations)
 
-- A valid Groq API Key
+---
 
 ## Installation
 
 ### Run without installing
 
 ```bash
-
-npx  interview-coach
-
+npx interview-coach
 ```
 
-### Install globally with npm
+### Install globally
 
 ```bash
-
-npm  install  -g  interview-coach
-
-```
-
-### Install globally with pnpm
-
-```bash
-
-pnpm  add  -g  interview-coach
-
-```
-
-### Install globally with Yarn
-
-```bash
-
-yarn  global  add  interview-coach
-
+npm install -g interview-coach
+# or
+pnpm add -g interview-coach
+# or
+yarn global add interview-coach
 ```
 
 ### Verify installation
 
 ```bash
-
-interview-coach  --version
-
+interview-coach --version
 ```
+
+---
 
 ## Configuration
 
-Interview Coach requires a Groq API key.
-
-### macOS / Linux
+Set up your AI provider and parameters interactively:
 
 ```bash
-
-export  GROQ_API_KEY="YOUR_API_KEY"
-
+interview-coach configure
 ```
 
-### Windows (PowerShell)
+This walkthrough command will prompt you to select your preferred provider, enter custom model names, add API keys, or specify local endpoints with smart defaults.
 
-```powershell
-
-$env:GROQ_API_KEY="YOUR_API_KEY"
-
-```
-
-You can also provide the API key directly:
+Alternatively, you can load keys via environment variables:
 
 ```bash
-
-interview-coach  start  --api-key  YOUR_API_KEY
-
+export GROQ_API_KEY="YOUR_KEY"
+export OPENAI_API_KEY="YOUR_KEY"
+export ANTHROPIC_API_KEY="YOUR_KEY"
 ```
 
 ---
 
 ## Usage
 
-### Start an Interactive Interview
+### Start or Resume an Interview
 
 ```bash
-
-interview-coach  start
-
+interview-coach start
 ```
+If an active incomplete interview is detected, the CLI will ask whether you want to resume it or archive it and start a new session.
 
-### Start with an API Key
+### Start with an API Key Override
 
 ```bash
-
-interview-coach  start  \
-
--k YOUR_API_KEY
-
+interview-coach start -k YOUR_API_KEY
+# or
+interview-coach start --api-key YOUR_API_KEY
 ```
+
+### View Interview History
 
 ```bash
-
-interview-coach  start  \
-
---api-key YOUR_API_KEY
-
+interview-coach history
 ```
+Displays a table of all past sessions, roles, levels, average scores, progress rates, and statuses.
 
-### View the Latest Report
+### View a Report
 
 ```bash
-
-interview-coach  report
-
+interview-coach report
 ```
-
-### Show Help
+If no ID is passed, it loads the active session or presents an interactive list of all past sessions to select from.
 
 ```bash
-
-interview-coach  --help
-
+interview-coach report <session-id>
 ```
 
-### Show Version
+### Delete a Session
 
 ```bash
-
-interview-coach  --version
-
+interview-coach delete
+# or
+interview-coach delete <session-id>
 ```
+
+---
 
 ## Example
 
 ```bash
-$  interview-coach  start
+$ interview-coach start
 
-Role:  Frontend  Developer
-Difficulty:  Senior
-Questions:  5
+Role: Frontend Developer
+Difficulty: Senior
+Focus Areas (optional): React, performance
+Number of questions: 5
 
-★  Question  1/5
+★ Question 1/5
 
-Category:  React
-Difficulty:  Medium
+Category: React
+Difficulty: Medium
 
-How  would  you  optimize  a  React  application  experiencing  unnecessary  re-renders?
+How would you optimize a React application experiencing unnecessary re-renders?
 
-Your  Answer:
-
+Your Answer:
 ```
+
+---
 
 ## Development
 
 ```bash
-git  clone  https://github.com/codemedialabs/interview-coach.git
-cd  interview-coach
-npm  install
-npm  run  build
+git clone https://github.com/codemedialabs/interview-coach.git
+cd interview-coach
+npm install
+npm run build
 ```
 
 Useful commands:
 
 ```bash
-
-npm  run  dev
-
-npm  run  build
-
-npm  run  rebuild
-
-npm  run  clean
-
-npm  run  check
-
+npm run dev       # runs the local entry CLI
+npm run build     # compiles with webpack to dist
+npm run rebuild   # cleans dist and compiles
+npm run clean     # removes dist folder
+npm run check     # prints compiled CLI help
 ```
+
+---
 
 ## Project Structure
 
 ```txt
 bin/
-├── cli.js
+└── cli.js                  # CLI Entrypoint (Commander wrapper)
 src/
 ├── commands/
-│ └── start.js
+│   ├── configure.js        # LLM Provider Prompt Walkthrough
+│   └── start.js            # Start/Resume Interview Configuration
 ├── providers/
-│ └── groq.js
+│   └── llm.js              # Generalized multi-provider client (Groq, OpenAI, Anthropic, Ollama, etc.)
 ├── schemas/
-│ └── sessionSchema.js
-├── utils/
-│ ├── answerEvaluator.js
-│ ├── engine.js
-│ ├── evaluateAnswerPrompt.js
-│ ├── generateQuestionPrompt.js
-│ ├── questionGenerator.js
-│ ├── renderLogo.js
-│ ├── session.js
-│ ├── showReport.js
-│ └── storage.js
+│   └── sessionSchema.js    # Zod schemas for validation
+└── utils/
+    ├── answerEvaluator.js  # Candidate answer evaluation wrapper
+    ├── config.js           # Configuration loader/writer
+    ├── engine.js           # Core interview loop & timer tracking
+    ├── evaluateAnswerPrompt.js
+    ├── generateQuestionPrompt.js
+    ├── normalize.js        # Model-agnostic response cleaner and normalizer
+    ├── questionGenerator.js
+    ├── renderLogo.js
+    ├── session.js          # Multi-session database manager
+    ├── showReport.js       # Skills Analysis and pacing reports visual display
+    └── storage.js          # File system directory helper
 dist/
-└── interview-coach.js
+└── interview-coach.js      # Bundled distribution
 data/
-└── session.json
-
+├── active_session_id.json  # Reference to active interview
+├── config.json             # AI provider configuration parameters
+└── sessions/
+    └── session-<id>.json   # Individual session logs
 ```
 
-### File descriptions
-
-- `bin/cli.js` — entrypoint for the published CLI. Parses commands and dispatches to the interview or report workflows.
-
-- `src/commands/start.js` — initiates a new interactive interview session and prompts the user for role, difficulty, and question count.
-
-- `src/providers/groq.js` — wraps the Groq SDK and sends structured prompts to the LLM to return JSON responses.
-
-- `src/schemas/sessionSchema.js` — Zod schema for validating interview session shape before saving to disk.
-
-- `src/utils/answerEvaluator.js` — evaluates the candidate's answer using an AI-generated JSON payload.
-
-- `src/utils/engine.js` — main interview loop: generates questions, asks for answers, evaluates responses, saves state, and displays the final report.
-
-- `src/utils/evaluateAnswerPrompt.js` — builds the prompt text used to evaluate candidate answers.
-
-- `src/utils/generateQuestionPrompt.js` — builds the prompt text used to generate interview questions.
-
-- `src/utils/questionGenerator.js` — requests a new interview question from the Groq provider.
-
-- `src/utils/renderLogo.js` — prints the terminal banner/logo at startup.
-
-- `src/utils/session.js` — handles creation, loading, saving, updating, and deletion of interview session data.
-
-- `src/utils/showReport.js` — renders the final interview report and detailed feedback in the terminal.
-
-- `src/utils/storage.js` — filesystem helpers for ensuring storage directories and checking file existence.
-
-- `dist/interview-coach.js` — bundled CLI distribution produced by Webpack for publishing.
-
-- `data/session.json` — runtime session persistence file created by the CLI for ongoing interview state.
+---
 
 ## Notes
 
-- Session data is stored locally.
-
-- The report command displays the latest completed interview.
-
-- Structured JSON outputs are used for both question generation and answer evaluation.
-
-- The default model can be configured inside the Groq provider implementation.
+- **Offline Support**: Selecting Ollama or Custom providers bypasses cloud API key checks completely.
+- **Auto-Migration**: Any old legacy `data/session.json` database files are auto-migrated to the new structure upon CLI execution.
+- **Local Logs**: Session records are saved in your local directory inside `data/sessions/`.
+- **JSON Formatting**: Prompt constraints instruct models to return JSON, and internal post-processors extract valid JSON fields even if models append conversational prose.
 
 ## Contributing
 

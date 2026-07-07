@@ -3,10 +3,15 @@ import path from "path";
 
 const DATA_DIR = path.resolve(process.cwd(), "data");
 
-const SESSION_FILE = path.join(DATA_DIR, "session.json");
+const SESSIONS_DIR = path.join(DATA_DIR, "sessions");
+const ACTIVE_SESSION_ID_FILE = path.join(DATA_DIR, "active_session_id.json");
+const MIGRATED_SESSION_FILE = path.join(DATA_DIR, "session.json");
 
 export async function ensureStorage() {
   await fs.mkdir(DATA_DIR, {
+    recursive: true,
+  });
+  await fs.mkdir(SESSIONS_DIR, {
     recursive: true,
   });
 }
@@ -20,4 +25,4 @@ export async function fileExists(file) {
   }
 }
 
-export { SESSION_FILE };
+export { SESSIONS_DIR, ACTIVE_SESSION_ID_FILE, MIGRATED_SESSION_FILE };

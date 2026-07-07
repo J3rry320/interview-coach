@@ -1,6 +1,7 @@
 export function generateQuestionPrompt({
   role,
   level,
+  focusAreas,
   previousQuestions = [],
   askedCount = 0,
 }) {
@@ -14,6 +15,8 @@ ${role}
 
 LEVEL:
 ${level}
+
+${focusAreas ? `FOCUS AREAS / SPECIFIC TECHNOLOGIES TO TARGET:\n${focusAreas}\n` : ""}
 
 QUESTIONS ALREADY ASKED:
 ${previousQuestions.join("\n") || "None"}
@@ -36,6 +39,7 @@ RULES:
    * Communication and reasoning questions
 9. Adapt naturally to any profession, industry, or job title provided.
 10. Return ONLY valid JSON.
+11. ${focusAreas ? `Prioritize asking questions specifically related to the specified FOCUS AREAS.` : `Vary topics broadly for the given role.`}
 
 JSON FORMAT:
 

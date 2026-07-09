@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     speechSynth.onvoiceschanged = populateVoices;
   }
 
-  // Handle enter key in answer input
+  // Handle enter key in answer input (Enter to submit, Shift+Enter for newline)
   document.getElementById('answer-input').addEventListener('keypress', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -30,18 +30,25 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// --- Config ---
 function nav(view) {
   document.getElementById('view-dashboard').classList.add('hidden');
+  document.getElementById('view-features').classList.add('hidden');
   document.getElementById('view-config').classList.add('hidden');
   document.getElementById('view-interview').classList.add('hidden');
   document.getElementById('view-report').classList.add('hidden');
   
   document.getElementById('nav-dashboard').classList.replace('text-white', 'text-surface-600');
+  document.getElementById('nav-features').classList.replace('text-white', 'text-surface-600');
   document.getElementById('nav-config').classList.replace('text-white', 'text-surface-600');
   
   document.getElementById(`view-${view}`).classList.remove('hidden');
   if (view !== 'interview' && view !== 'report') {
     document.getElementById(`nav-${view}`).classList.replace('text-surface-600', 'text-white');
+  }
+  
+  if (view === 'dashboard') {
+    loadSessions();
   }
 }
 

@@ -81,7 +81,7 @@ async function callOpenAICompatible({
     temperature,
     messages: [
       { role: "system", content: system },
-      { role: roleWrapper(user, useJsonMode) },
+      { role: "user", content: roleWrapper(user, useJsonMode) },
     ],
   };
 
@@ -161,7 +161,7 @@ export async function generateStructuredOutput({
       system,
       user,
       temperature,
-      useJsonMode: true,
+      useJsonMode: config.useJsonMode !== false,
     });
     return JSON.parse(responseText);
   }
@@ -190,7 +190,7 @@ export async function generateStructuredOutput({
       system,
       user,
       temperature,
-      useJsonMode: true,
+      useJsonMode: config.useJsonMode !== false,
     });
     return JSON.parse(responseText);
   }
@@ -206,7 +206,7 @@ export async function generateStructuredOutput({
       system,
       user,
       temperature,
-      useJsonMode: true,
+      useJsonMode: config.useJsonMode !== false,
     });
     return JSON.parse(responseText);
   }

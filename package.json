@@ -1,7 +1,7 @@
 {
   "name": "interview-coach",
-  "version": "1.0.1",
-  "description": "AI-powered interview simulator that conducts realistic interviews, evaluates responses, and generates detailed performance reports.",
+  "version": "2.0.0",
+  "description": "AI-powered dual-mode interview simulator with terminal CLI and voice-enabled local Web Dashboard, featuring native test coverage.",
   "type": "module",
   "bin": {
     "interview-coach": "./dist/interview-coach.js"
@@ -20,7 +20,8 @@
     "check": "node dist/interview-coach.js --help",
     "pack:check": "npm pack --dry-run",
     "release:check": "npm run rebuild && npm run check && npm run pack:check",
-    "prepublishOnly": "npm run release:check"
+    "prepublishOnly": "npm run release:check",
+    "test": "node --experimental-test-coverage --test tests/*.test.js"
   },
   "keywords": [
     "ai",
@@ -29,10 +30,21 @@
     "technical-interview",
     "career",
     "cli",
-    "developer-tools",
+    "dashboard",
+    "web-dashboard",
+    "express",
+    "speech-recognition",
+    "text-to-speech",
     "groq",
+    "openai",
+    "anthropic",
     "assessment",
-    "job-preparation"
+    "job-preparation",
+    "testing",
+    "unit-tests",
+    "integration-tests",
+    "code-coverage",
+    "native-test-runner"
   ],
   "author": {
     "name": "Code Media Labs",
@@ -57,14 +69,14 @@
     "chalk": "^5.6.2",
     "cli-table3": "^0.6.5",
     "commander": "^15.0.0",
-    "cors": "^2.8.6",
+    "cors": "^2.8.5",
     "dotenv": "^17.4.2",
-    "express": "^5.2.1",
+    "express": "^4.19.2",
     "figlet": "^1.11.0",
     "figures": "^6.1.0",
     "gradient-string": "^3.0.0",
     "groq-sdk": "^1.2.1",
-    "open": "^11.0.0",
+    "open": "^10.1.0",
     "ora": "^9.4.0",
     "zod": "^4.4.3"
   },

@@ -150,9 +150,11 @@ export async function deleteSession(id) {
   const file = path.join(SESSIONS_DIR, `session-${targetId}.json`);
   const exists = await fileExists(file);
 
-  if (exists) {
-    await fs.unlink(file);
+  if (!exists) {
+    return false;
   }
+
+  await fs.unlink(file);
 
   const activeId = await getActiveSessionId();
   if (activeId === targetId) {

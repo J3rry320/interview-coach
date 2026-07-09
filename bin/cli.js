@@ -52,7 +52,7 @@ try {
 program
   .name("interview-coach")
   .description("Practice AI-powered interviews from your terminal.")
-  .version("1.0.1");
+  .version("2.0.0");
 
 program
   .command("start")
@@ -128,7 +128,11 @@ program
   .action(async (id) => {
     try {
       let targetId = id;
-      if (!targetId) {
+      if (targetId && targetId.length >= 8) {
+        const sessions = await listAllSessions();
+        const match = sessions.find((s) => s.id.startsWith(targetId));
+        if (match) targetId = match.id;
+      } else {
         const activeSession = await loadSession();
         if (activeSession) {
           targetId = activeSession.id;
@@ -247,7 +251,11 @@ program
   .action(async (id) => {
     try {
       let targetId = id;
-      if (!targetId) {
+      if (targetId && targetId.length >= 8) {
+        const sessions = await listAllSessions();
+        const match = sessions.find((s) => s.id.startsWith(targetId));
+        if (match) targetId = match.id;
+      } else {
         const sessions = await listAllSessions();
         if (sessions.length === 0) {
           console.log(chalk.yellow("No past interviews found to delete."));

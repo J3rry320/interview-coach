@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 
-const DATA_DIR = path.resolve(process.cwd(), "data");
+const DATA_DIR = process.env.DATA_DIR || path.resolve(process.cwd(), "data");
 
 const SESSIONS_DIR = path.join(DATA_DIR, "sessions");
 const ACTIVE_SESSION_ID_FILE = path.join(DATA_DIR, "active_session_id.json");
@@ -25,4 +25,4 @@ export async function fileExists(file) {
   }
 }
 
-export { SESSIONS_DIR, ACTIVE_SESSION_ID_FILE, MIGRATED_SESSION_FILE };
+export { DATA_DIR, SESSIONS_DIR, ACTIVE_SESSION_ID_FILE, MIGRATED_SESSION_FILE };

@@ -1,8 +1,8 @@
 import fs from "fs/promises";
 import path from "path";
-import { ensureStorage, fileExists } from "./storage.js";
+import { DATA_DIR, ensureStorage, fileExists } from "./storage.js";
 
-const CONFIG_FILE = path.resolve(process.cwd(), "data", "config.json");
+const CONFIG_FILE = path.join(DATA_DIR, "config.json");
 
 const DEFAULT_CONFIG = {
   provider: "groq",

@@ -20,6 +20,16 @@ export default {
     outputModule: true,
   },
 
+  externals: [
+    ({ request }) => {
+      if (/^[a-z@].*$/.test(request) && !request.startsWith(".") && !path.isAbsolute(request)) {
+        return `import ${request}`;
+      }
+      return undefined;
+    }
+  ],
+  externalsType: "module",
+
   optimization: {
     splitChunks: false,
   },

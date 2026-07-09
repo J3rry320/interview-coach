@@ -41,6 +41,7 @@ The project evolved into an open-source Proof of Concept showcasing how AI can b
 - **Educational Ideal Answer Guides**: Review AI-suggested ideal answers side-by-side with your own for detailed study.
 - **Pacing & Duration Tracking**: Displays time taken per answer and average pacing metrics.
 - **Skills Analysis**: Groups questions by category and shows visual score progress bars (`[████████░░] 80%`) in the terminal.
+- **Local Speech Mode (STT & TTS)**: Conduct interviews entirely using your voice. Speak answers to questions and hear the AI ask them aloud. Utilizes a local, quantized 8-bit ONNX Whisper model (`whisper-tiny.en`) for Speech-to-Text, and native system-level synthesizers (such as macOS `say` with dynamic voice selection, and Windows `System.Speech` PowerShell integration) for Text-to-Speech to guarantee 100% correct pronunciation, zero dependencies, and instant response times.
 - **Cross-LLM Data Normalization**: Model-agnostic JSON cleaners extract, map, and cast outputs to prevent schema parsing crashes, even on smaller local models.
 
 ---
@@ -49,6 +50,8 @@ The project evolved into an open-source Proof of Concept showcasing how AI can b
 
 - Node.js >= 20
 - A valid API key for cloud providers (optional if using local Ollama or Custom offline configurations)
+- **FFmpeg**: Required for Speech-to-Text (STT) voice recording capture. (Install via `brew install ffmpeg` on macOS, `sudo apt install ffmpeg` on Linux, or `winget install FFmpeg.FFmpeg` on Windows)
+- **Native TTS Utilities**: Utilizes pre-installed OS speech engines. (On Linux, ensure `spd-say` or `espeak` is installed: `sudo apt install speech-dispatcher` or `sudo apt install espeak`)
 
 ---
 
@@ -210,6 +213,7 @@ src/
     ├── renderLogo.js
     ├── session.js          # Multi-session database manager
     ├── showReport.js       # Skills Analysis and pacing reports visual display
+    ├── speech.js           # Core speech engine (native TTS playback & ONNX Whisper ASR transcription)
     └── storage.js          # File system directory helper
 dist/
 └── interview-coach.js      # Bundled distribution

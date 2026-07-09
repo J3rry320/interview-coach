@@ -12,6 +12,7 @@ const DEFAULT_CONFIG = {
   speechEnabled: false,
   ttsEnabled: false,
   sttEnabled: false,
+  ttsVoice: "Default",
 };
 
 export async function loadConfig() {

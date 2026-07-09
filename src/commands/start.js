@@ -1,7 +1,6 @@
 import boxen from "boxen";
 import chalk from "chalk";
 import gradient from "gradient-string";
-
 import { input, select } from "@inquirer/prompts";
 
 import { runInterview } from "../utils/engine.js";
@@ -13,6 +12,7 @@ import {
   saveSession,
   clearActiveSessionId,
 } from "../utils/session.js";
+import { startWebDashboard } from "./web.js";
 
 export async function startCommand() {
   console.clear();
@@ -25,6 +25,20 @@ export async function startCommand() {
       align: "center",
     }),
   );
+
+  const mode = await select({
+    message: "How would you like to run the interview coach?",
+    choices: [
+      { name: "Browser (Web Dashboard with Voice & Text)", value: "web" },
+      { name: "CLI (Text-only Terminal)", value: "cli" },
+    ],
+  });
+
+  if (mode === "web") {
+    console.log(chalk.green("\nStarting Web Dashboard...\n"));
+    await startWebDashboard();
+    return;
+  }
 
   // Resumption Check
   const activeId = await getActiveSessionId();

@@ -167,8 +167,8 @@ export async function hasActiveSession() {
   return !!session;
 }
 
-export async function saveEvaluation({ questionId, answer, evaluation, durationSeconds }) {
-  const session = await loadSession();
+export async function saveEvaluation({ questionId, answer, evaluation, durationSeconds }, sessionId) {
+  const session = await loadSession(sessionId);
   if (!session) {
     throw new Error("No active session");
   }
@@ -201,8 +201,8 @@ export async function saveEvaluation({ questionId, answer, evaluation, durationS
   return session;
 }
 
-export async function addQuestion(question) {
-  const session = await loadSession();
+export async function addQuestion(question, sessionId) {
+  const session = await loadSession(sessionId);
 
   if (!session) {
     throw new Error("No active session");

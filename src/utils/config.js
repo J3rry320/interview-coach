@@ -8,11 +8,7 @@ const DEFAULT_CONFIG = {
   provider: "groq",
   model: "llama-3.3-70b-versatile",
   apiKey: "",
-  baseUrl: "",
-  speechEnabled: false,
-  ttsEnabled: false,
-  sttEnabled: false,
-  ttsVoice: "Default",
+  baseUrl: ""
 };
 
 export async function loadConfig() {

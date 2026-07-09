@@ -52,17 +52,19 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@huggingface/transformers": "^4.2.0",
     "@inquirer/prompts": "^8.5.0",
     "boxen": "^8.0.1",
     "chalk": "^5.6.2",
     "cli-table3": "^0.6.5",
     "commander": "^15.0.0",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
+    "express": "^5.2.1",
     "figlet": "^1.11.0",
     "figures": "^6.1.0",
     "gradient-string": "^3.0.0",
     "groq-sdk": "^1.2.1",
+    "open": "^11.0.0",
     "ora": "^9.4.0",
     "zod": "^4.4.3"
   },

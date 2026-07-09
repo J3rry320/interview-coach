@@ -7,6 +7,7 @@ import Table from "cli-table3";
 
 import { startCommand } from "../src/commands/start.js";
 import { configureCommand } from "../src/commands/configure.js";
+import { startWebDashboard } from "../src/commands/web.js";
 import { loadConfig } from "../src/utils/config.js";
 import {
   hasActiveSession,
@@ -102,6 +103,19 @@ program
       await configureCommand();
     } catch (error) {
       console.error(chalk.red("\nFailed to configure LLM provider:"));
+      console.error(error);
+      process.exit(1);
+    }
+  });
+
+program
+  .command("web")
+  .description("Start the web dashboard")
+  .action(async () => {
+    try {
+      await startWebDashboard();
+    } catch (error) {
+      console.error(chalk.red("\nFailed to start web dashboard:"));
       console.error(error);
       process.exit(1);
     }

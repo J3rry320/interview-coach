@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Coach - AI Simulator</title>
+  
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Chart.js and html2pdf.js CDNs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Space Grotesk"', 'sans-serif'],
+          },
+          colors: {
+            // Clean Monochromatic Palette
+            surface: {
+              950: '#09090b', // Zinc 950
+              900: '#18181b', // Zinc 900
+              800: '#27272a', // Zinc 800
+              700: '#3f3f46', // Zinc 700
+              600: '#52525b', // Zinc 600
+              400: '#a1a1aa', // Zinc 400
+              200: '#e4e4e7', // Zinc 200
+              100: '#f4f4f5', // Zinc 100
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #09090b;
+      color: #f4f4f5;
+      min-height: 100vh;
+    }
+    
+    .mono-card {
+      background-color: #18181b;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+    /* Animation Utils */
+    .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    @keyframes fadeIn { 
+      from { opacity: 0; transform: translateY(12px); } 
+      to { opacity: 1; transform: translateY(0); } 
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-surface-200 overflow-x-hidden">
+
+  <!-- Navbar -->
+  <nav class="mono-card sticky top-0 z-50 px-8 py-5 flex justify-between items-center border-b border-white/5">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-surface-100 flex items-center justify-center text-surface-950 font-bold font-display shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+      </div>
+      <h1 class="text-xl font-display font-bold tracking-tight text-white">Interview <span class="text-surface-400">Coach</span></h1>
+    </div>
+    <div class="flex gap-6 font-semibold text-sm">
+      <button onclick="nav('dashboard')" id="nav-dashboard" class="text-white hover:text-surface-400 transition-colors">Dashboard</button>
+      <button onclick="nav('config')" id="nav-config" class="text-surface-600 hover:text-white transition-colors">Settings</button>
+    </div>
+  </nav>
+
+  <main class="max-w-6xl mx-auto p-6 md:p-12 relative z-10">
+
+    <!-- Dashboard View -->
+    <div id="view-dashboard" class="fade-in space-y-12">
+      <header class="text-center space-y-4">
+        <h2 class="text-5xl md:text-6xl font-display font-bold leading-tight text-white">Level up your <br/> interview skills</h2>
+        <p class="text-surface-400 max-w-2xl mx-auto text-lg leading-relaxed">Practice mock interviews with our supportive AI coach. Speak naturally, test your knowledge, and get friendly, actionable insights to improve.</p>
+      </header>
+      
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Start New Session -->
+        <div class="mono-card p-10 rounded-3xl flex flex-col justify-between relative overflow-hidden">
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <div class="p-2 bg-surface-800 rounded-lg text-white"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg></div>
+              <h3 class="text-2xl font-display font-bold text-white">Start a Practice Session</h3>
+            </div>
+            <p class="text-surface-400 mb-8 text-sm">Choose your target role and difficulty level to begin.</p>
+            
+            <form id="start-form" class="space-y-5">
+              <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-surface-400 mb-2">Target Role</label>
+                <input type="text" id="start-role" required placeholder="e.g. Senior Backend Engineer" class="w-full bg-surface-950 border border-surface-700 rounded-xl px-4 py-3 focus:outline-none focus:border-white transition text-sm text-white">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-surface-400 mb-2">Difficulty</label>
+                <select id="start-level" class="w-full bg-surface-950 border border-surface-700 rounded-xl px-4 py-3 focus:outline-none focus:border-white transition text-sm text-white appearance-none">
+                  <option value="junior">Junior (Foundational)</option>
+                  <option value="mid" selected>Mid-level (Practical)</option>
+                  <option value="senior">Senior (Architecture & Trade-offs)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-surface-400 mb-2">Focus Areas</label>
+                <input type="text" id="start-focus" placeholder="e.g. Node.js, Microservices" class="w-full bg-surface-950 border border-surface-700 rounded-xl px-4 py-3 focus:outline-none focus:border-white transition text-sm text-white">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-surface-400 mb-2">Number of Questions</label>
+                <input type="number" id="start-questions" required min="1" max="25" value="5" class="w-full bg-surface-950 border border-surface-700 rounded-xl px-4 py-3 focus:outline-none focus:border-white transition text-sm text-white">
+              </div>
+            </form>
+          </div>
+          <button onclick="startInterview()" class="mt-10 w-full bg-surface-100 hover:bg-surface-200 text-surface-950 font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2">
+            <span>Begin Practice Run</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </button>
+        </div>
+
+        <!-- History -->
+        <div class="mono-card p-10 rounded-3xl flex flex-col h-full relative overflow-hidden">
+          <div class="relative z-10 flex flex-col h-full">
+            <div class="flex items-center gap-3 mb-2">
+              <div class="p-2 bg-surface-800 rounded-lg text-white"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+              <h3 class="text-2xl font-display font-bold text-white">Your Performance History</h3>
+            </div>
+            <p class="text-surface-400 mb-8 text-sm">Review how you did and track your improvement over time.</p>
+            
+            <div id="history-list" class="flex-1 overflow-y-auto space-y-4 pr-2" style="max-height: 400px;">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Config View -->
+    <div id="view-config" class="hidden fade-in max-w-2xl mx-auto mono-card p-10 rounded-3xl">
+      <div class="flex items-center gap-3 mb-2">
+        <div class="p-2 bg-surface-800 rounded-lg text-white"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></div>
+        <h2 class="text-3xl font-display font-bold text-white">Settings</h2>
+      </div>
+      <p class="text-surface-400 mb-10 text-sm">Configure your preferred AI model and API keys.</p>
+      
+      <form id="config-form" class="space-y-6">
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-surface-400 mb-2">Provider</label>
+            <select id="config-provider" class="w-full bg-surface-950 border border-surface-700 rounded-xl px-4 py-3 focus:outline-none focus:border-white transition text-sm text-white appearance-none">
+              <option value="groq">Groq</option>
+              <option value="openai">OpenAI</option>
+              <option value="anthropic">Anthropic</option>
+              <option value="ollama">Ollama (Local)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-surface-400 mb-2">Model Name</label>
+            <input type="text" id="config-model" class="w-full bg-surface-950 border border-surface-700 rounded-xl px-4 py-3 focus:outline-none focus:border-white transition text-sm text-white">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-surface-400 mb-2">API Key</label>
+          <input type="password" id="config-key" placeholder="Leave blank to use environment variables" class="w-full bg-surface-950 border border-surface-700 rounded-xl px-4 py-3 focus:outline-none focus:border-white transition text-sm text-white">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-surface-400 mb-2">Base URL (optional)</label>
+          <input type="text" id="config-baseurl" class="w-full bg-surface-950 border border-surface-700 rounded-xl px-4 py-3 focus:outline-none focus:border-white transition text-sm text-white">
+        </div>
+
+        <div class="pt-6 border-t border-surface-700">
+          <label class="block text-xs font-semibold uppercase tracking-wider text-surface-400 mb-2">Browser Voice Preference (TTS)</label>
+          <select id="config-voice" class="w-full bg-surface-950 border border-surface-700 rounded-xl px-4 py-3 focus:outline-none focus:border-white transition text-sm text-white appearance-none">
+            <option value="">Default System Voice</option>
+            <!-- Rendered via JS -->
+          </select>
+        </div>
+        
+        <button type="button" onclick="saveConfig()" class="w-full mt-6 bg-surface-800 hover:bg-surface-700 text-white font-bold py-4 rounded-xl transition-colors flex justify-center items-center gap-2 border border-surface-700">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          Save Settings
+        </button>
+      </form>
+      <div id="config-msg" class="mt-4 text-white text-sm hidden text-center font-medium">All set! Your settings are updated.</div>
+    </div>
+
+    <!-- Interview Room View -->
+    <div id="view-interview" class="hidden fade-in max-w-6xl w-full mx-auto flex flex-col h-[90vh]">
+      
+      <div class="flex justify-between items-center mb-6">
+        <div>
+          <div class="flex items-center gap-2.5">
+            <span class="h-2.5 w-2.5 rounded-full bg-white flex-shrink-0"></span>
+            <h2 class="text-3xl font-display font-bold text-white">Interview Simulator</h2>
+          </div>
+          <p id="interview-meta" class="text-surface-400 text-sm mt-1">Role - Level</p>
+        </div>
+        <button onclick="nav('dashboard')" class="text-sm font-semibold text-surface-400 hover:text-white px-5 py-2.5 rounded-xl border border-surface-700 hover:bg-surface-800 transition flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+          Exit Interview
+        </button>
+      </div>
+
+      <div class="flex-1 mono-card rounded-3xl flex flex-col overflow-hidden relative">
+        
+        <!-- Chat/History Area -->
+        <div id="interview-history" class="flex-1 p-8 overflow-y-auto space-y-8 scroll-smooth">
+          <!-- Chat bubbles will go here -->
+        </div>
+        
+        <!-- Loading overlay -->
+        <div id="interview-loader" class="absolute inset-0 bg-surface-950/95 backdrop-blur-sm flex items-center justify-center flex-col gap-6 hidden z-10">
+          <svg class="animate-spin h-12 w-12 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span id="interview-loader-text" class="text-white font-bold tracking-widest uppercase text-sm">Thinking...</span>
+        </div>
+
+        <!-- Input Area -->
+        <div class="p-6 border-t border-surface-700 bg-surface-900 flex items-end gap-4 relative">
+
+          <button id="mic-btn" onclick="toggleRecording()" class="relative z-10 w-14 h-14 mb-1 rounded-2xl bg-surface-800 hover:bg-surface-700 flex items-center justify-center text-white transition-colors focus:outline-none focus:ring-1 focus:ring-white flex-shrink-0 border border-surface-700" title="Click to toggle microphone" aria-label="Toggle microphone dictation">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+            </svg>
+          </button>
+          
+          <textarea id="answer-input" placeholder="Type your response, or click the mic to speak..." aria-label="Your response input" class="flex-1 bg-surface-950 border border-surface-700 rounded-2xl px-6 py-4 focus:outline-none focus:ring-1 focus:ring-white focus:border-white transition text-base font-medium text-white min-h-[120px] h-32"></textarea>
+          
+          <button onclick="submitAnswer()" class="w-14 h-14 mb-1 rounded-2xl bg-surface-100 hover:bg-surface-200 text-surface-950 flex items-center justify-center transition-all shadow-md flex-shrink-0 focus:outline-none focus:ring-1 focus:ring-surface-950" aria-label="Submit your response">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 transform rotate-12">
+              <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Report View -->
+    <div id="view-report" class="hidden fade-in max-w-5xl mx-auto space-y-8">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-3xl font-display font-bold text-white">Feedback & Report</h2>
+          <p id="report-title-meta" class="text-surface-400 text-sm mt-1">Role - Level</p>
+        </div>
+        <div class="flex gap-4">
+          <button onclick="downloadPDF()" class="text-sm font-semibold bg-surface-100 hover:bg-surface-200 text-surface-950 px-5 py-2.5 rounded-xl transition flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            Download PDF
+          </button>
+          <button onclick="nav('dashboard')" class="text-sm font-semibold text-surface-400 hover:text-white px-5 py-2.5 rounded-xl border border-surface-700 hover:bg-surface-800 transition">
+            Back to Dashboard
+          </button>
+        </div>
+      </div>
+
+      <!-- PDF Container -->
+      <div id="report-content" class="space-y-8 p-10 bg-surface-950 rounded-3xl border border-surface-700">
+        
+        <!-- Score and Performance Headers -->
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="mono-card p-6 rounded-2xl text-center flex flex-col justify-center items-center">
+            <span class="text-xs uppercase tracking-widest text-surface-400 font-semibold mb-2">Overall Score</span>
+            <div id="report-score" class="text-5xl font-display font-bold text-white">85%</div>
+            <div id="report-score-msg" class="text-xs text-surface-400 mt-2">Excellent performance!</div>
+          </div>
+          <div class="mono-card p-6 rounded-2xl text-center flex flex-col justify-center items-center">
+            <span class="text-xs uppercase tracking-widest text-surface-400 font-semibold mb-2">Time Pacing</span>
+            <div id="report-pacing" class="text-4xl font-display font-bold text-white">1m 30s</div>
+            <div class="text-xs text-surface-400 mt-2">Average time per response</div>
+          </div>
+          <div class="mono-card p-6 rounded-2xl text-center flex flex-col justify-center items-center">
+            <span class="text-xs uppercase tracking-widest text-surface-400 font-semibold mb-2">Status</span>
+            <div id="report-status" class="text-3xl font-display font-bold text-white uppercase tracking-wider">Completed</div>
+            <div id="report-date" class="text-xs text-surface-400 mt-2">Date Taken</div>
+          </div>
+        </div>
+
+        <!-- Graphs / Charts -->
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="mono-card p-6 rounded-2xl">
+            <h4 class="text-sm font-semibold uppercase tracking-wider text-surface-400 mb-4 text-center">Score Progression</h4>
+            <div class="h-64 relative flex items-center justify-center">
+              <canvas id="scoreChart"></canvas>
+            </div>
+          </div>
+          <div class="mono-card p-6 rounded-2xl">
+            <h4 class="text-sm font-semibold uppercase tracking-wider text-surface-400 mb-4 text-center">Response Times (Seconds)</h4>
+            <div class="h-64 relative flex items-center justify-center">
+              <canvas id="timeChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detailed Question Breakdown -->
+        <div class="space-y-6">
+          <h3 class="text-xl font-display font-bold border-b border-surface-700 pb-3 text-white">Question-by-Question Evaluation</h3>
+          <div id="report-questions-container" class="space-y-6">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="max-w-6xl mx-auto px-8 py-10 mt-12 border-t border-surface-800 text-center text-xs text-surface-600 font-semibold tracking-wider uppercase flex flex-col md:flex-row justify-between items-center gap-4">
+    <div class="flex items-center gap-2">
+      <span class="text-white">Interview Coach</span>
+      <span class="text-surface-700">|</span>
+      <span>AI Simulator</span>
+    </div>
+    <div>
+      <span>Developed by <a href="https://codemedialabs.in" target="_blank" class="hover:text-white transition-colors">Code Media Labs</a></span>
+    </div>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

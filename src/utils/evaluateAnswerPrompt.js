@@ -3,6 +3,7 @@ export function evaluateAnswerPrompt({
   question,
   expectedTopics,
   candidateAnswer,
+  contextData,
 }) {
   return `
 You are a strict technical interviewer.
@@ -18,6 +19,9 @@ ${expectedTopics.join(", ")}
 
 CANDIDATE ANSWER:
 ${candidateAnswer}
+
+CANDIDATE CONTEXT & PAST PERFORMANCE:
+${contextData || "No past performance available."}
 
 Evaluate:
 
@@ -48,6 +52,7 @@ WRITING STYLE:
 * Feedback should feel like a real interview review.
 * Strengths should describe what the interviewee did well.
 * Improvements should describe what the interviewee missed, misunderstood, or could explain better.
+* If the CANDIDATE CONTEXT shows they struggled with this topic previously, you may refer to their growth or continued weakness constructively.
 * Be constructive but honest.
 * Keep feedback concise (1-3 sentences).
 * Ideal answers should be educational and technically accurate.

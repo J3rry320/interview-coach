@@ -2,7 +2,7 @@ export function generateQuestionPrompt({
   role,
   level,
   focusAreas,
-  previousQuestions = [],
+  contextData,
   askedCount = 0,
 }) {
   return `
@@ -18,8 +18,8 @@ ${level}
 
 ${focusAreas ? `FOCUS AREAS / SPECIFIC TECHNOLOGIES TO TARGET:\n${focusAreas}\n` : ""}
 
-QUESTIONS ALREADY ASKED:
-${previousQuestions.join("\n") || "None"}
+CANDIDATE CONTEXT & HISTORY:
+${contextData || "No history available."}
 
 RULES:
 
@@ -29,7 +29,8 @@ RULES:
 4. Focus on practical knowledge, decision-making, problem-solving, communication, and real-world scenarios.
 5. Avoid trivia, memorization-based questions, and overly theoretical questions unless appropriate for the role.
 6. Questions should help assess whether the interviewee can perform successfully in the role.
-7. Keep questions concise and clear.
+7. Review the CANDIDATE CONTEXT. Adapt the difficulty based on their past scores, and do NOT repeat previously asked questions. If they struggled on certain topics, optionally test those topics again from a different angle.
+8. Keep questions concise and clear.
 8. Vary question types across the interview:
 
    * Knowledge questions

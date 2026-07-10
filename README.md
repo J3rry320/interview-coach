@@ -73,33 +73,54 @@ With version `2.0.0`, we transitioned from a voice-heavy CLI with fragile local 
 
 While ChatGPT is excellent for general interview preparation, **Interview Coach** is purpose-built for structured, repeatable mock interviews.
 
-- **Purpose-Built Interview Workflow**: Instead of manually crafting prompts for every session, Interview Coach guides you through a complete interview experience—from role selection and questioning to evaluation and reporting.
-- **Progress Tracking & Smart Memory**: Interview Coach stores your interview history locally, tracks performance over time, and uses recent sessions to focus future interviews on areas where you need the most improvement.
-- **Bring Your Own Model**: Use the LLM provider you prefer—including OpenAI, Anthropic, Groq, Ollama, or any OpenAI-compatible endpoint—without being tied to a single platform or subscription.
-- **Developer-First Experience**: Practice directly from the CLI or launch the local web dashboard for browser-based Text-to-Speech (TTS), Speech-to-Text (STT), interactive analytics, and professional PDF evaluation reports.
-- **Privacy & Local Control**: Interview sessions, configuration, and reports remain on your machine, giving you full ownership of your interview history and API credentials.
+### Purpose-Built Interview Workflow
+Instead of manually crafting prompts for every session, Interview Coach guides you through a complete interview experience—from role selection and questioning to evaluation and reporting.
+
+### Progress Tracking & Smart Memory
+Interview Coach stores your interview history locally, tracks performance over time, and uses recent sessions to focus future interviews on areas where you need the most improvement.
+
+### Bring Your Own Model
+Use the LLM provider you prefer—including OpenAI, Anthropic, Groq, Ollama, or any OpenAI-compatible endpoint—without being tied to a single platform or subscription.
+
+### Developer-First Experience
+Practice directly from the CLI or launch the local web dashboard for browser-based Text-to-Speech (TTS), Speech-to-Text (STT), interactive analytics, and professional PDF evaluation reports.
+
+### Privacy & Local Control
+Interview sessions, configuration, and reports remain on your machine, giving you full ownership of your interview history and API credentials.
 
 ---
 
 ## Privacy First
 
-- **100% Telemetry-Free**: Interview Coach doesn't collect analytics, track usage, or send telemetry.
-- **Local by Default**: Configuration, interview history, reports, and analytics are stored entirely on your machine.
-- **Your API Keys, Your Control**: Credentials are never uploaded or shared beyond the LLM provider you choose.
-- **Offline with Ollama**: When using Ollama, interview prompts and responses remain on your local machine without relying on cloud-hosted models.
+### 100% Telemetry-Free
+Interview Coach doesn't collect analytics, track usage, or send telemetry.
+
+### Local by Default
+Configuration, interview history, reports, and analytics are stored entirely on your machine.
+
+### Your API Keys, Your Control
+Credentials are never uploaded or shared beyond the LLM provider you choose.
+
+### Offline with Ollama
+When using Ollama, interview prompts and responses remain on your local machine without relying on cloud-hosted models.
 
 ---
 
 ## Who Is It For?
 
-Interview Coach is designed for anyone who wants structured, repeatable interview practice, including:
+Interview Coach is designed for anyone who wants structured, repeatable interview practice.
 
-- **Students & Job Seekers** preparing for internships, graduate programs, or full-time roles.
-- **Professionals Across Any Industry** practicing for interviews in software engineering, product management, marketing, sales, finance, consulting, healthcare, education, law, human resources, customer success, and more.
-- **Career Switchers** building confidence while transitioning into a new field or role.
-- **Recruiters, Hiring Managers & Trainers** creating consistent interview scenarios, evaluating responses, or training interviewers.
-- **Developers & AI Enthusiasts** looking for a customizable interview framework with support for OpenAI, Anthropic, Groq, Ollama, and OpenAI-compatible APIs.
-- **Privacy-Conscious Users** who value local storage, offline-capable workflows, and complete control over their interview history and configuration.
+### Candidates & Job Seekers
+* **Students & Graduates**: Preparing for internships, graduate programs, or first-time full-time roles.
+* **Industry Professionals**: Practicing for software engineering, product management, marketing, sales, finance, consulting, healthcare, law, HR, and more.
+* **Career Switchers**: Building confidence while transitioning into a new field or role.
+
+### Enterprise & Administrators
+* **Recruiters & Hiring Managers**: Creating consistent interview scenarios, evaluating candidate responses, or training junior interviewers.
+
+### Developers & Power Users
+* **AI Enthusiasts**: Customizing the prompt flows with support for OpenAI, Anthropic, Groq, Ollama, and OpenAI-compatible APIs.
+* **Privacy-Conscious Users**: Keeping data local, running offline-capable LLMs, and maintaining ownership of configurations and history.
 
 ---
 
@@ -235,19 +256,15 @@ interview-coach  configure
 
 **Interactive Walkthrough Prompts:**
 
-1.  **Select Provider**: Choose from `groq`, `openai`, `anthropic`, `ollama`, or `custom` endpoints.
+The configuration wizard guides you through the following setup:
 
-2.  **Provider-Specific Settings**:
-
-- **Groq**: Model Name, API Key
-
-- **OpenAI**: Model Name, API Key, Base URL (optional proxy)
-
-- **Anthropic**: Model Name, API Key
-
-- **Ollama**: Ollama Base URL, Model Name, Request Timeout (minutes, defaults to 5)
-
-- **Custom**: Base URL, Model Name, API Key (optional), Request Timeout (minutes, defaults to 5)
+1. **Select Provider**: Choose from `groq`, `openai`, `anthropic`, `ollama`, or `custom` endpoints.
+2. **Provider-Specific Settings**:
+   * **Groq**: Model Name, API Key
+   * **OpenAI**: Model Name, API Key, Base URL (optional proxy)
+   * **Anthropic**: Model Name, API Key
+   * **Ollama**: Ollama Base URL, Model Name, Request Timeout (minutes, defaults to 5)
+   * **Custom**: Base URL, Model Name, API Key (optional), Request Timeout (minutes, defaults to 5)
 
 > [!NOTE]
 > The **Request Timeout** configuration option is particularly useful for local or offline models. Since local model generation can take a few minutes to warm up and load weights into memory on the first request, the default 5-minute timeout helps prevent `UND_ERR_HEADERS_TIMEOUT` failures.
@@ -269,41 +286,34 @@ interview-coach  web
 
 ```
 
-- **Server Port**: Operates on `http://localhost:3000`.
+### Key Dashboard Features
 
-- **Top Navigation Bars**:
+#### Local Web Server
+Operates locally on `http://localhost:3000` via Express.
 
-- **Dashboard**: The main workspace where you configure new mock sessions, explore history lists, select past reports, and review performance trends.
+#### Navigation & Workspace
+* **Dashboard Tab**: The main workspace where you configure new mock sessions, explore history lists, select past reports, and review performance trends.
+* **Features Tab**: A detailed feature guide outlining core architectural benefits, speech pipelines, data layers, and token security boundaries.
+* **Settings Tab**: A clean, in-browser interface to dynamically update active LLM providers, models, custom endpoints, base URLs, and parameters.
 
-- **Features**: A detailed feature guide outlining core architectural benefits, including speech pipelines, summarized data layers, and token security boundaries.
+#### Speech Recognition (STT)
+Harnesses the browser-native `webkitSpeechRecognition` API. It allows you to click the microphone icon to dictate answers verbally with no heavy Python dependencies, audio binaries, or external paid voice APIs.
 
-- **Settings**: A clean, in-browser interface to dynamically update your active LLM provider, models, custom endpoints, base URLs, and parameters.
-
-- **Speech Recognition (STT)**:
-
-- Harnesses the browser-native `webkitSpeechRecognition` API.
-
-- Allows you to click the microphone icon to dictate answers verbally. No heavy Python dependencies, audio binaries, or external voice APIs are required.
-
-- **Speech Synthesis (TTS)**:
-
-- Utilizes the browser-native `SpeechSynthesisUtterance` API.
-
-- Generates realistic audio readings of interview questions. You can toggle audio playback on/off directly from the main panel.
+#### Speech Synthesis (TTS)
+Utilizes the browser-native `SpeechSynthesisUtterance` API. It generates realistic audio readings of interview questions, allowing you to toggle audio playback on/off directly from the main panel.
 
 ---
 
 ## Reports
 
-- **Detailed Evaluation breakdown**: Each answer is instantly graded across a scale of 0-100, deriving verdicts (`correct`, `partial`, `incorrect`).
+### Detailed Evaluation Breakdown
+Each answer is graded on a scale of 0–100, deriving precise verdicts (`correct`, `partial`, or `incorrect`).
 
-- **Missed Points & Ideal Answers**: Evaluator highlights key technical trade-offs that you omitted and generates an ideal response guide.
+### Missed Points & Ideal Answers
+The evaluator highlights key technical trade-offs or points you omitted, generating a tailored "ideal response" guide for study.
 
-- **PDF Report Downloads**:
-
-- Graded session reports can be compiled and downloaded instantly.
-
-- Uses `html2pdf.js` to compile the report layout, strength lists, missed points, and ideal answers into a print-ready, branded PDF format.
+### PDF Report Downloads
+Graded session reports can be compiled and downloaded instantly. The application uses `html2pdf.js` to compile the report layout, strength lists, missed points, and ideal answers into a print-ready, branded PDF format.
 
 ---
 
@@ -388,19 +398,12 @@ npm  test
 
 ## Powered By
 
-- **Commander.js** (CLI Framework)
-
-- **Express.js** (Backend API Server)
-
-- **Inquirer.js** (CLI Prompting)
-
-- **Chart.js** (Visual Analytics)
-
-- **html2pdf.js** (PDF Generation)
-
-- **Tailwind.css** (CSS Library)
-
-- **Shields.io** (Metadata Badges)
+* **CLI Framework**: Commander.js & Inquirer.js
+* **Backend API Server**: Express.js
+* **Visual Analytics & Charting**: Chart.js
+* **PDF Generation**: html2pdf.js
+* **Styling**: Tailwind CSS
+* **Metadata Badges**: Shields.io
 
 ---
 

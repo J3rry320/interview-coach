@@ -6,30 +6,19 @@
 
 </p>
 
-<p  align="center">
-
-<img src="https://img.shields.io/badge/node-%3E%3D20-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
-
-<a href="https://www.npmjs.com/package/interview-coach"><img src="https://img.shields.io/npm/v/interview-coach?style=for-the-badge" alt="npm version"></a>
-
-<a href="https://www.npmjs.com/package/interview-coach"><img src="https://img.shields.io/npm/dm/interview-coach?style=for-the-badge" alt="npm downloads"></a>
-
-<a href="https://github.com/J3rry320/interview-coach/stargazers"><img src="https://img.shields.io/github/stars/J3rry320/interview-coach?style=for-the-badge" alt="github stars"></a>
-
-<a href="https://github.com/J3rry320/interview-coach/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/interview-coach?style=for-the-badge" alt="npm license"></a>
-
+<p align="center">
+  <img src="https://img.shields.io/badge/node-%3E%3D20-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
+  <a href="https://www.npmjs.com/package/interview-coach"><img src="https://img.shields.io/npm/v/interview-coach?style=for-the-badge" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/interview-coach"><img src="https://img.shields.io/npm/dm/interview-coach?style=for-the-badge" alt="npm downloads"></a>
+  <a href="https://github.com/J3rry320/interview-coach/stargazers"><img src="https://img.shields.io/github/stars/J3rry320/interview-coach?style=for-the-badge" alt="github stars"></a>
+  <a href="https://github.com/J3rry320/interview-coach/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/interview-coach?style=for-the-badge" alt="npm license"></a>
 </p>
 
-<p  align="center">
-
-<img src="https://img.shields.io/badge/Open_Source-MIT-success?style=for-the-badge" alt="Open Source">
-
-<img src="https://img.shields.io/badge/Telemetry-Zero-black?style=for-the-badge" alt="Zero Telemetry">
-
-<img src="https://img.shields.io/badge/BYOM-Bring_Your_Own_Model-blue?style=for-the-badge" alt="BYOM">
-
-<img src="https://img.shields.io/badge/Offline-Ollama_Support-orange?style=for-the-badge" alt="Offline Ollama Support">
-
+<p align="center">
+  <img src="https://img.shields.io/badge/Open_Source-MIT-success?style=for-the-badge" alt="Open Source">
+  <img src="https://img.shields.io/badge/Telemetry-Zero-black?style=for-the-badge" alt="Zero Telemetry">
+  <img src="https://img.shields.io/badge/BYOM-Bring_Your_Own_Model-blue?style=for-the-badge" alt="BYOM">
+  <img src="https://img.shields.io/badge/Offline-Ollama_Support-orange?style=for-the-badge" alt="Offline Ollama Support">
 </p>
 
 AI-powered dual-mode interview simulator that helps you practice interviews, receive structured evaluations, and track progress either directly through your terminal or via a gorgeous local Web Dashboard.
@@ -116,96 +105,8 @@ Interview Coach is designed for anyone who wants structured, repeatable intervie
 
 ## Architecture
 
-<p  align="center">
-
-<svg  xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 800 240"  width="100%"  height="auto"  style="background:#09090b; border-radius:12px; border:1px solid rgba(255,255,255,0.08); font-family:system-ui, -apple-system, sans-serif;">
-
-<defs>
-
-<marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-
-<path d="M 0 0 L 10 5 L 0 10 z" fill="#a1a1aa"  />
-
-</marker>
-
-</defs>
-
-<!-- Row titles -->
-
-<text x="20" y="35" fill="#a1a1aa" font-size="12" font-weight="bold" letter-spacing="1">INTERFACES</text>
-
-<text x="240" y="35" fill="#a1a1aa" font-size="12" font-weight="bold" letter-spacing="1">CONTROL LAYER</text>
-
-<text x="460" y="35" fill="#a1a1aa" font-size="12" font-weight="bold" letter-spacing="1">INTELLIGENCE LAYER</text>
-
-<text x="680" y="35" fill="#a1a1aa" font-size="12" font-weight="bold" letter-spacing="1">PROVIDERS (BYOM)</text>
-
-<!-- Node 1: Frontends -->
-
-<rect x="20" y="55" width="180" height="150" rx="8" fill="#18181b" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
-
-<text x="110" y="90" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">Interactive UI</text>
-
-<rect x="35" y="115" width="150" height="30" rx="4" fill="#27272a" stroke="rgba(255,255,255,0.04)" />
-
-<text x="110" y="134" fill="#e4e4e7" font-size="12" text-anchor="middle">Terminal CLI</text>
-
-<rect x="35" y="155" width="150" height="30" rx="4" fill="#27272a" stroke="rgba(255,255,255,0.04)" />
-
-<text x="110" y="174" fill="#e4e4e7" font-size="12" text-anchor="middle">Web Dashboard</text>
-
-<!-- Node 2: Server -->
-
-<rect x="240" y="55" width="180" height="150" rx="8" fill="#18181b" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
-
-<text x="330" y="90" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">Express Backend</text>
-
-<rect x="255" y="115" width="150" height="30" rx="4" fill="#27272a" stroke="rgba(255,255,255,0.04)" />
-
-<text x="330" y="134" fill="#e4e4e7" font-size="12" text-anchor="middle">Session Manager</text>
-
-<rect x="255" y="155" width="150" height="30" rx="4" fill="#27272a" stroke="rgba(255,255,255,0.04)" />
-
-<text x="330" y="174" fill="#e4e4e7" font-size="12" text-anchor="middle">REST API Endpoints</text>
-
-<!-- Node 3: Intelligence -->
-
-<rect x="460" y="55" width="180" height="150" rx="8" fill="#18181b" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
-
-<text x="550" y="90" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">Core Engine</text>
-
-<rect x="475" y="115" width="150" height="30" rx="4" fill="#27272a" stroke="rgba(255,255,255,0.04)" />
-
-<text x="550" y="134" fill="#e4e4e7" font-size="12" text-anchor="middle">Smart Context Builder</text>
-
-<rect x="475" y="155" width="150" height="30" rx="4" fill="#27272a" stroke="rgba(255,255,255,0.04)" />
-
-<text x="550" y="174" fill="#e4e4e7" font-size="12" text-anchor="middle">Safety Guardrails</text>
-
-<!-- Node 4: LLMs -->
-
-<rect x="680" y="55" width="100" height="150" rx="8" fill="#18181b" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
-
-<text x="730" y="85" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">Agnostic LLM</text>
-
-<text x="730" y="115" fill="#a1a1aa" font-size="11" text-anchor="middle">Groq / OpenAI</text>
-
-<text x="730" y="135" fill="#a1a1aa" font-size="11" text-anchor="middle">Anthropic</text>
-
-<text x="730" y="155" fill="#a1a1aa" font-size="11" text-anchor="middle">Ollama (Local)</text>
-
-<text x="730" y="175" fill="#a1a1aa" font-size="11" text-anchor="middle">Custom API</text>
-
-<!-- Connector Arrows -->
-
-<line x1="200" y1="130" x2="234" y2="130" stroke="#3f3f46" stroke-width="2" marker-end="url(#arrow)" />
-
-<line x1="420" y1="130" x2="454" y2="130" stroke="#3f3f46" stroke-width="2" marker-end="url(#arrow)" />
-
-<line x1="640" y1="130" x2="674" y2="130" stroke="#3f3f46" stroke-width="2" marker-end="url(#arrow)" />
-
-</svg>
-
+<p align="center">
+  <img src="assets/architecture.svg" alt="Interview Coach Architecture" width="100%">
 </p>
 
 ---

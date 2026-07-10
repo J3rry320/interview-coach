@@ -48,14 +48,20 @@ git checkout -b feature/my-feature
 npm run build
 ```
 
-4. Test the CLI.
+4. Test the CLI locally:
 
 ```bash
-interview-coach --help
-interview-coach start
+node dist/interview-coach.js --help
+node dist/interview-coach.js start
 ```
 
-5. Commit your changes.
+5. Run unit tests to verify changes:
+
+```bash
+npm test
+```
+
+6. Commit your changes.
 
 ```bash
 git commit -m "feat: add new interview evaluation strategy"

@@ -344,13 +344,15 @@ interview-coach  configure
 
 - **Anthropic**: Model Name, API Key
 
-- **Ollama**: Ollama Base URL, Model Name
+- **Ollama**: Ollama Base URL, Model Name, Request Timeout (minutes, defaults to 5)
 
-- **Custom**: Base URL, Model Name, API Key (optional)
+- **Custom**: Base URL, Model Name, API Key (optional), Request Timeout (minutes, defaults to 5)
+
+> [!NOTE]
+> The **Request Timeout** configuration option is particularly useful for local or offline models. Since local model generation can take a few minutes to warm up and load weights into memory on the first request, the default 5-minute timeout helps prevent `UND_ERR_HEADERS_TIMEOUT` failures.
 
 > [!TIP]
-
-> You can bypass the configuration wizard entirely by setting environment variables in your shell (e.g., `GROQ_API_KEY`, `OPENAI_API_KEY`, or `ANTHROPIC_API_KEY`).
+> All configurations are saved locally in `./data/config.json` relative to your current workspace directory. You can inspect or modify this file directly to adjust your configurations. You can also bypass the configuration wizard entirely by setting environment variables in your shell (e.g., `GROQ_API_KEY`, `OPENAI_API_KEY`, or `ANTHROPIC_API_KEY`).
 
 ---
 
@@ -436,6 +438,18 @@ npm install
 ```bash
 
 npm run build
+
+```
+
+3. Run the locally built application:
+
+```bash
+
+# Run configuration wizard:
+node dist/interview-coach.js configure
+
+# Start the mock interview session:
+node dist/interview-coach.js start
 
 ```
 

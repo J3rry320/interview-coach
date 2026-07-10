@@ -61,7 +61,16 @@ program
   .action(async (options) => {
     try {
       const config = await loadConfig();
-      const provider = config.provider || "groq";
+      let provider = config.provider || "groq";
+
+      if (provider === "groq" && !config.apiKey && !process.env.GROQ_API_KEY) {
+        if (process.env.OPENAI_API_KEY) {
+          provider = "openai";
+        } else if (process.env.ANTHROPIC_API_KEY) {
+          provider = "anthropic";
+        }
+      }
+
       const apiKey = options.apiKey || config.apiKey || (
         provider === "groq" ? process.env.GROQ_API_KEY :
         provider === "openai" ? process.env.OPENAI_API_KEY :

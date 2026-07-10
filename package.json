@@ -40,11 +40,7 @@
     "anthropic",
     "assessment",
     "job-preparation",
-    "testing",
-    "unit-tests",
-    "integration-tests",
-    "code-coverage",
-    "native-test-runner"
+    "testing"
   ],
   "author": {
     "name": "Code Media Labs",
@@ -78,6 +74,7 @@
     "groq-sdk": "^1.2.1",
     "open": "^10.1.0",
     "ora": "^9.4.0",
+    "undici": "^8.7.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {

@@ -83,11 +83,28 @@ export async function configureCommand() {
     });
   }
 
+  let requestTimeout = currentConfig.requestTimeout || 5;
+  if (provider === "ollama" || provider === "custom") {
+    const timeoutInput = await input({
+      message: "Request Timeout (minutes):",
+      default: String(requestTimeout),
+      validate: (val) => {
+        const parsed = parseFloat(val);
+        if (isNaN(parsed) || parsed <= 0) {
+          return "Please enter a positive number of minutes.";
+        }
+        return true;
+      }
+    });
+    requestTimeout = parseFloat(timeoutInput);
+  }
+
   await saveConfig({
     provider,
     model,
     apiKey,
     baseUrl,
+    requestTimeout,
   });
 
   console.log(chalk.bold.green("\n=== Configuration Saved Successfully! ===\n"));

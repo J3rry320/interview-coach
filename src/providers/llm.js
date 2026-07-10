@@ -1,6 +1,13 @@
 import "dotenv/config";
 import Groq from "groq-sdk";
+import { Agent, setGlobalDispatcher } from "undici";
 import { loadConfig } from "../utils/config.js";
+
+// Set default global fetch timeouts to 5 minutes
+setGlobalDispatcher(new Agent({
+  headersTimeout: 5 * 60 * 1000, // 5 minutes
+  bodyTimeout: 5 * 60 * 1000,    // 5 minutes
+}));
 
 // Helper to clean markdown JSON wrapper (useful for Anthropic and small local models)
 function cleanJsonString(rawText) {
@@ -27,7 +34,7 @@ function cleanJsonString(rawText) {
 }
 
 // Call Anthropic Messages API
-async function callAnthropic({ system, user, apiKey, model, temperature }) {
+async function callAnthropic({ system, user, apiKey, model, temperature, timeoutMs }) {
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: {
@@ -35,6 +42,10 @@ async function callAnthropic({ system, user, apiKey, model, temperature }) {
       "x-api-key": apiKey,
       "anthropic-version": "2023-06-01",
     },
+    dispatcher: new Agent({
+      headersTimeout: timeoutMs,
+      bodyTimeout: timeoutMs,
+    }),
     body: JSON.stringify({
       model: model || "claude-3-5-sonnet-20241022",
       max_tokens: 4000,
@@ -68,6 +79,7 @@ async function callOpenAICompatible({
   user,
   temperature,
   useJsonMode = true,
+  timeoutMs,
 }) {
   const headers = {
     "content-type": "application/json",
@@ -89,10 +101,15 @@ async function callOpenAICompatible({
     body.response_format = { type: "json_object" };
   }
 
-  const response = await fetch(`${baseUrl}/chat/completions`, {
+  const cleanBaseUrl = baseUrl.replace(/\/+$/, "");
+  const response = await fetch(`${cleanBaseUrl}/chat/completions`, {
     method: "POST",
     headers,
     body: JSON.stringify(body),
+    dispatcher: new Agent({
+      headersTimeout: timeoutMs,
+      bodyTimeout: timeoutMs,
+    }),
   });
 
   if (!response.ok) {
@@ -118,22 +135,50 @@ export async function generateStructuredOutput({
 }) {
   const config = await loadConfig();
 
-  const provider = config?.provider || "groq";
-  const model = config?.model || "llama-3.3-70b-versatile";
+  let provider = config?.provider || "groq";
+
+  // Auto-detect provider if default is groq but no Groq key exists, while other keys are set
+  if (provider === "groq" && !config?.apiKey && !process.env.GROQ_API_KEY) {
+    if (process.env.OPENAI_API_KEY) {
+      provider = "openai";
+    } else if (process.env.ANTHROPIC_API_KEY) {
+      provider = "anthropic";
+    }
+  }
+
+  const model = config?.model || (
+    provider === "groq" ? "llama-3.3-70b-versatile" :
+    provider === "openai" ? "gpt-4o-mini" :
+    provider === "anthropic" ? "claude-3-5-sonnet-20241022" :
+    provider === "ollama" ? "llama3.2" :
+    ""
+  );
+
   const apiKey = config?.apiKey || (
     provider === "groq" ? process.env.GROQ_API_KEY :
     provider === "openai" ? process.env.OPENAI_API_KEY :
     provider === "anthropic" ? process.env.ANTHROPIC_API_KEY :
     ""
   );
-  const baseUrl = config?.baseUrl || "";
+
+  const baseUrl = config?.baseUrl || (
+    provider === "openai" ? (process.env.OPENAI_BASE_URL || process.env.OPENAI_API_BASE || "") :
+    provider === "ollama" ? (process.env.OLLAMA_BASE_URL || process.env.OLLAMA_HOST || "") :
+    provider === "groq" ? (process.env.GROQ_BASE_URL || "") :
+    provider === "anthropic" ? (process.env.ANTHROPIC_BASE_URL || "") :
+    provider === "custom" ? (process.env.CUSTOM_BASE_URL || "") :
+    ""
+  );
+
+  const requestTimeout = config?.requestTimeout || 5;
+  const timeoutMs = requestTimeout * 60 * 1000;
 
   if (provider === "groq") {
     const key = apiKey || process.env.GROQ_API_KEY;
     if (!key) {
       throw new Error("Missing Groq API Key. Set GROQ_API_KEY env variable or run 'interview-coach configure'.");
     }
-    const client = new Groq({ apiKey: key });
+    const client = new Groq({ apiKey: key, timeout: timeoutMs });
     const completion = await client.chat.completions.create({
       model: model || "llama-3.3-70b-versatile",
       temperature,
@@ -162,6 +207,7 @@ export async function generateStructuredOutput({
       user,
       temperature,
       useJsonMode: config.useJsonMode !== false,
+      timeoutMs,
     });
     return JSON.parse(responseText);
   }
@@ -177,6 +223,7 @@ export async function generateStructuredOutput({
       apiKey: key,
       model: model || "claude-3-5-sonnet-20241022",
       temperature,
+      timeoutMs,
     });
     return JSON.parse(responseText);
   }
@@ -191,6 +238,7 @@ export async function generateStructuredOutput({
       user,
       temperature,
       useJsonMode: config.useJsonMode !== false,
+      timeoutMs,
     });
     return JSON.parse(responseText);
   }
@@ -207,6 +255,7 @@ export async function generateStructuredOutput({
       user,
       temperature,
       useJsonMode: config.useJsonMode !== false,
+      timeoutMs,
     });
     return JSON.parse(responseText);
   }

@@ -324,4 +324,67 @@ describe("llm module", () => {
     assert.equal(fetchBody.response_format, undefined);
     assert.match(fetchBody.messages[1].content, /Return ONLY a valid JSON object/);
   });
+
+  test("auto-detects openai provider if groq has no key but OPENAI_API_KEY is present", async () => {
+    await saveConfig({ provider: "groq", apiKey: "", model: "" });
+    const originalOpenAIKey = process.env.OPENAI_API_KEY;
+    const originalGroqKey = process.env.GROQ_API_KEY;
+    delete process.env.GROQ_API_KEY;
+    process.env.OPENAI_API_KEY = "mock-openai-key";
+
+    let fetchCalled = false;
+    fetchMock = async (url, options) => {
+      fetchCalled = true;
+      return {
+        ok: true,
+        json: async () => ({
+          choices: [{
+            message: {
+              content: '{"result": "detected-success"}'
+            }
+          }]
+        })
+      };
+    };
+
+    try {
+      const res = await generateStructuredOutput({ system: "s", user: "u" });
+      assert.deepEqual(res, { result: "detected-success" });
+      assert.equal(fetchCalled, true);
+    } finally {
+      process.env.OPENAI_API_KEY = originalOpenAIKey;
+      process.env.GROQ_API_KEY = originalGroqKey;
+    }
+  });
+
+  test("auto-detects anthropic provider if groq has no key but ANTHROPIC_API_KEY is present", async () => {
+    await saveConfig({ provider: "groq", apiKey: "", model: "" });
+    const originalAnthropicKey = process.env.ANTHROPIC_API_KEY;
+    const originalGroqKey = process.env.GROQ_API_KEY;
+    const originalOpenAIKey = process.env.OPENAI_API_KEY;
+    delete process.env.GROQ_API_KEY;
+    delete process.env.OPENAI_API_KEY;
+    process.env.ANTHROPIC_API_KEY = "mock-anthropic-key";
+
+    let fetchCalled = false;
+    fetchMock = async (url, options) => {
+      fetchCalled = true;
+      return {
+        ok: true,
+        json: async () => ({
+          content: [{ text: '{"result": "detected-anthropic"}' }]
+        })
+      };
+    };
+
+    try {
+      const res = await generateStructuredOutput({ system: "s", user: "u" });
+      assert.deepEqual(res, { result: "detected-anthropic" });
+      assert.equal(fetchCalled, true);
+    } finally {
+      process.env.ANTHROPIC_API_KEY = originalAnthropicKey;
+      process.env.GROQ_API_KEY = originalGroqKey;
+      process.env.OPENAI_API_KEY = originalOpenAIKey;
+    }
+  });
 });

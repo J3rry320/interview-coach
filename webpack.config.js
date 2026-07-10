@@ -21,7 +21,7 @@ export default {
   },
 
   externals: [
-    ({ request }) => {
+    async ({ request }) => {
       if (/^[a-z@].*$/.test(request) && !request.startsWith(".") && !path.isAbsolute(request)) {
         return `import ${request}`;
       }

@@ -8,7 +8,8 @@ const DEFAULT_CONFIG = {
   provider: "groq",
   model: "llama-3.3-70b-versatile",
   apiKey: "",
-  baseUrl: ""
+  baseUrl: "",
+  requestTimeout: 5
 };
 
 export async function loadConfig() {

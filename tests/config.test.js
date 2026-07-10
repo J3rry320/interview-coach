@@ -26,7 +26,8 @@ describe("config module", () => {
       provider: "groq",
       model: "llama-3.3-70b-versatile",
       apiKey: "",
-      baseUrl: ""
+      baseUrl: "",
+      requestTimeout: 5
     });
   });
 
@@ -35,7 +36,8 @@ describe("config module", () => {
       provider: "openai",
       model: "gpt-4o",
       apiKey: "sk-test123",
-      baseUrl: "https://api.openai.com/v1"
+      baseUrl: "https://api.openai.com/v1",
+      requestTimeout: 5
     };
 
     await saveConfig(newConfig);

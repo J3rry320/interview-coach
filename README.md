@@ -407,6 +407,16 @@ npm  test
 
 ---
 
+## Contributing & Feedback
+
+We welcome and encourage contributions of all kinds! If you find a bug, have an idea for a new feature, or want to suggest better features and advanced functionality, we'd love to hear from you.
+
+* **Find & Report Issues**: Encountered a bug? Check existing issues or open a new one to report it.
+* **Recommend Features**: Have suggestions for new capabilities, advanced options, or workflow enhancements? Start a discussion or open a feature request.
+* **Submit Pull Requests**: Ready to contribute code? Please check out our [Contributing Guidelines](CONTRIBUTING.md) to set up the development environment, then open a pull request!
+
+---
+
 ## About Code Media Labs
 
 Code Media Labs is a digital agency focused on building modern websites, scalable platforms, automation workflows, and creative media experiences.

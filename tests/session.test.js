@@ -106,6 +106,10 @@ describe("session module", () => {
 
     const activeSession = await loadSession();
     assert.equal(activeSession, null);
+
+    const loadedCompleted = await loadSession(session.id);
+    assert.ok(loadedCompleted);
+    assert.equal(loadedCompleted.status, "completed");
   });
 
   test("lists all sessions sorted by date descending", async () => {

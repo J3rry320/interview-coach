@@ -35,7 +35,7 @@ export async function runInterview(session) {
       questionSpinner.succeed();
       
       question.startTime = new Date().toISOString();
-      await addQuestion(question);
+      await addQuestion(question, session.id);
       startTime = Date.now();
     }
 
@@ -86,13 +86,13 @@ export async function runInterview(session) {
       answer,
       evaluation,
       durationSeconds,
-    });
+    }, session.id);
 
     console.log(`Score: ${evaluation.score}`);
 
     console.log(evaluation.feedback);
 
-    session = await loadSession();
+    session = await loadSession(session.id);
   }
 
   await showFinalReport(session);

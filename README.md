@@ -35,6 +35,8 @@ AI-powered dual-mode interview simulator that helps you practice interviews, rec
 
 - [Architecture](#architecture)
 
+- [Installation Guide](INSTALLATION.md)
+
 - [Quick Start](#quick-start)
 
 - [Commands](#commands)
@@ -147,6 +149,8 @@ Interview Coach is designed for anyone who wants structured, repeatable intervie
 ## Quick Start
 
 Get up and running in seconds. No global install required.
+
+> For full platform-specific installation instructions (Node.js for macOS/Windows/Linux, local Ollama setup, and package options), see the [Installation Guide](INSTALLATION.md).
 
 1.  **Initialize configuration wizard:**
 

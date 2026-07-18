@@ -1,6 +1,6 @@
 {
   "name": "interview-coach",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "AI-powered dual-mode interview simulator with terminal CLI and voice-enabled local Web Dashboard, featuring native test coverage.",
   "type": "module",
   "bin": {
@@ -9,6 +9,7 @@
   "files": [
     "dist",
     "README.md",
+    "INSTALLATION.md",
     "LICENSE"
   ],
   "scripts": {
